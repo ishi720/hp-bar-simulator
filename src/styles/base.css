@@ -1,0 +1,100 @@
+/* ==========================================================================
+   ベース：色の定義・リセット・フォーム部品の共通スタイル
+   ========================================================================== */
+
+:root {
+    /* 背景 */
+    --color-bg: #262b45;
+    --color-bg-panel: #1f2339;
+    --color-bg-input: #1b1f33;
+
+    /* 文字・枠線 */
+    --color-text: #e8eaf2;
+    --color-border: #5a6186;
+    --color-border-focus: #a9b0d4;
+
+    /* アクセント */
+    --color-accent: #f3c74a;
+    --color-hp: #3ccf5a;
+    --color-damage: #ff5c6c;
+    --color-track: #3d4466;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic UI", Meiryo, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    background: var(--color-bg);
+    color: var(--color-text);
+}
+
+/* --------------------------------------------------------------------------
+   フォーカス
+   -------------------------------------------------------------------------- */
+
+:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+/* プルダウンと入力欄は、選択中も黄色い枠を出さず枠線の色だけ変える */
+select:focus,
+input[type="text"]:focus,
+input[type="number"]:focus {
+    outline: none;
+    border-color: var(--color-border-focus) !important;
+}
+
+/* --------------------------------------------------------------------------
+   スライダー
+   -------------------------------------------------------------------------- */
+
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 20px;
+    margin: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+/* つまみが動く溝 */
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    background: var(--color-track);
+    border-radius: 3px;
+}
+
+input[type="range"]::-moz-range-track {
+    height: 6px;
+    background: var(--color-track);
+    border-radius: 3px;
+}
+
+/* つまみ */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    margin-top: -6px; /* 溝の中央に合わせる */
+    background: var(--color-accent);
+    border: 2px solid var(--color-bg-input);
+    border-radius: 50%;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: var(--color-accent);
+    border: 2px solid var(--color-bg-input);
+    border-radius: 50%;
+}

@@ -12,15 +12,25 @@
     const transition = $derived(bar.trail ? 'width .15s ease-out' : 'none');
 </script>
 
-<section class="card" data-level={bar.tone}>
+<section class="card">
     <div class="name"><span>{bar.name}</span><span>Lv{bar.level}</span></div>
     <div class="hp">
         <span class="label">HP</span>
         <div class="track">
             {#if bar.trail}
-                <div class="trail" style:width="{bar.trailRatio * 100}%" style:transition={transition}></div>
+                <div
+                    class="trail"
+                    style:width="{bar.trailRatio * 100}%"
+                    style:background={bar.trailColor}
+                    style:transition={transition}
+                ></div>
             {/if}
-            <div class="fill" style:width="{bar.ratio * 100}%" style:transition={transition}></div>
+            <div
+                class="fill"
+                style:width="{bar.ratio * 100}%"
+                style:background={bar.fillColor}
+                style:transition={transition}
+            ></div>
         </div>
     </div>
     <div class="nums">{bar.shownHp} / {bar.max}</div>
@@ -57,10 +67,6 @@
         border: 2px solid #2b2b2b;
     }
     .fill, .trail { position: absolute; top: 0; bottom: 0; left: 0; }
-    .trail { background: #ff5c6c; }
-    .fill { background: #3ccf5a; }
-    .card[data-level="mid"] .fill { background: #f2c32b; }
-    .card[data-level="low"] .fill { background: #e5484d; }
     .fill::after { /* 上半分のハイライト */
         content: ""; position: absolute; left: 0; right: 0; top: 0; height: 40%;
         background: rgba(255, 255, 255, .35);

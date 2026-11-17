@@ -2,23 +2,26 @@
     import { untrack } from 'svelte';
     import { HpBar } from './lib/HpBar.svelte.js';
     import { Character } from './lib/Character.svelte.js';
+    import { GaugeColors } from './lib/GaugeColors.svelte.js';
     import { InstantMotion, StepMotion, CurveMotion, LinearMotion, BounceMotion } from './lib/motions.svelte.js';
     import Section from './components/Section.svelte';
     import CharacterSettings from './components/CharacterSettings.svelte';
+    import GaugeColorSettings from './components/GaugeColorSettings.svelte';
     import MotionSettings from './components/MotionSettings.svelte';
     import HpBarView from './components/HpBarView.svelte';
     import './styles/base.css';
     import './styles/app.css';
 
-    // キャラクターは全パターンで共有する
+    // キャラクターとゲージの色は全パターンで共有する
     const character = new Character({ name: '桃太郎', level: 100, maxHp: 1000 });
+    const colors = new GaugeColors();
 
     const bars = [
-        new HpBar({ character, motion: new InstantMotion() }),
-        new HpBar({ character, motion: new StepMotion({ stepHp: 1, msPerStep: 8 }) }),
-        new HpBar({ character, motion: new CurveMotion({ fullMs: 2000, px: 0.5, py: 0 }) }),
-        new HpBar({ character, motion: new LinearMotion({ speed: 4 }), trail: true }),
-        new HpBar({ character, motion: new BounceMotion({ fullMs: 1500, bounces: 1, restitution: 0.4 }) }),
+        new HpBar({ character, colors, motion: new InstantMotion() }),
+        new HpBar({ character, colors, motion: new StepMotion({ stepHp: 1, msPerStep: 8 }) }),
+        new HpBar({ character, colors, motion: new CurveMotion({ fullMs: 2000, px: 0.5, py: 0 }) }),
+        new HpBar({ character, colors, motion: new LinearMotion({ speed: 4 }), trail: true }),
+        new HpBar({ character, colors, motion: new BounceMotion({ fullMs: 1500, bounces: 1, restitution: 0.4 }) }),
     ];
 
     // 最大HPが変わったら、全パターンのHPを満タンに戻す
@@ -46,7 +49,7 @@
                 <CharacterSettings {character} />
             </Section>
 
-            <Section title="HPバー設定">
+            <Section title="ダメージ動作設定">
                 <label class="pattern-picker">
                     <span class="pattern-picker-label">ダメージパターン</span>
                     <select class="pattern-picker-select" bind:value={selected}>
@@ -58,6 +61,10 @@
                 {#key selected}
                     <div class="pattern-motion"><MotionSettings {bar} /></div>
                 {/key}
+            </Section>
+
+            <Section title="ゲージの色" open={false}>
+                <GaugeColorSettings {colors} />
             </Section>
         </aside>
 

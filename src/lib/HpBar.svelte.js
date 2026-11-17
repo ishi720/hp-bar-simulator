@@ -46,12 +46,14 @@ export class HpBar {
     /**
      * @param {object} options
      * @param {import('./Character.svelte.js').Character} options.character キャラクター（名前・レベル・最大HP）
+     * @param {import('./GaugeColors.svelte.js').GaugeColors} options.colors ゲージの色
      * @param {import('./motions.svelte.js').Motion} options.motion 減り方
      * @param {boolean} [options.trail] 残像を出すか
      * @param {number} [options.trailDelay] 残像が追いかけ始めるまでの時間（ms）
      */
-    constructor({ character, motion, trail = false, trailDelay = 400 }) {
+    constructor({ character, colors, motion, trail = false, trailDelay = 400 }) {
         this.character = character;
+        this.colors = colors;
         this.motion = motion;
         const max = character.safeMaxHp;
         this.hp = max;
@@ -106,9 +108,14 @@ export class HpBar {
         return this.trail.follow ? this.ratio : this.trail.gauge.ratio;
     }
 
-    /** 色分け用：high（>50%）/ mid（>20%）/ low */
-    get tone() {
-        return this.ratio > 0.5 ? 'high' : this.ratio > 0.2 ? 'mid' : 'low';
+    /** 本体ゲージの色（残りHPの割合で変わる） */
+    get fillColor() {
+        return this.colors.colorAt(this.ratio);
+    }
+
+    /** 残像の色 */
+    get trailColor() {
+        return this.colors.trail;
     }
 
     damage(amount) {
